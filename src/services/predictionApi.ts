@@ -1,6 +1,6 @@
 // src/services/predictionApi.ts
 
-export const API_BASE_URL = "https://churn-predictor-jcgx.onrender.com";
+export const API_BASE_URL = "https://customer-churn-predictor-zdez.onrender.com";
 
 export interface CustomerFormData {
   gender: string;
