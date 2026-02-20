@@ -148,7 +148,9 @@ function getSessionId() {
 interface PredictionResult {
   churn_probability: number;
   predicted_churn: boolean;
+  predicted_churn_status: string;
   risk_level: "Low" | "Medium" | "High";
+  recommendations: string[];
 }
 
 export default function Dashboard() {
@@ -674,8 +676,8 @@ export default function Dashboard() {
                         </div>
                         <div className="rounded-lg bg-secondary p-3 text-center">
                           <div className="text-xs text-muted-foreground mb-1">Prediction</div>
-                          <div className="text-xl font-bold text-foreground">
-                            {prediction.predicted_churn ? "Will Churn" : "Will Stay"}
+                          <div className="text-sm font-bold text-foreground leading-tight">
+                            {prediction.predicted_churn ? "Likely to Leave" : "Likely to Stay"}
                           </div>
                         </div>
                       </div>
@@ -687,7 +689,7 @@ export default function Dashboard() {
                       <InsightsCard
                         probability={prediction.churn_probability}
                         riskLevel={prediction.risk_level}
-                        formData={savedFormData ?? undefined}
+                        recommendations={prediction.recommendations}
                       />
 
                       {/* Save button */}
