@@ -1,6 +1,11 @@
 // src/services/predictionApi.ts
+// All prediction requests are routed through a server-side edge function proxy
+// to avoid CORS issues with the Render-hosted FastAPI backend.
 
-export const API_BASE_URL = "https://customer-churn-predictor-zdez.onrender.com";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+export const PROXY_URL = `${SUPABASE_URL}/functions/v1/predict-proxy`;
 
 export interface CustomerFormData {
   gender: string;
@@ -26,12 +31,13 @@ export interface CustomerFormData {
 export interface PredictionResult {
   churn_probability: number;
   predicted_churn: boolean;
+  predicted_churn_status: string;   // raw string from backend e.g. "Churn (Likely to leave)"
   risk_level: "Low" | "Medium" | "High";
-  recommendations?: string[];
+  recommendations: string[];
 }
 
 export async function predictChurn(data: CustomerFormData): Promise<PredictionResult> {
-  // Map React form data to the exact schema your main.py CustomerData class expects
+  // Map React camelCase form fields → exact Python Pydantic field names
   const payload = {
     gender: data.gender,
     SeniorCitizen: data.seniorCitizen,
@@ -51,37 +57,32 @@ export async function predictChurn(data: CustomerFormData): Promise<PredictionRe
     PaperlessBilling: data.paperlessBilling,
     PaymentMethod: data.paymentMethod,
     MonthlyCharges: data.monthlyCharges,
-    // Inject the missing required variable by calculating it here
-    TotalCharges: data.tenure * data.monthlyCharges, 
+    TotalCharges: data.tenure * data.monthlyCharges,
   };
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/predict`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+  const response = await fetch(PROXY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+    body: JSON.stringify(payload),
+  });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Error ${response.status}: ${errorText}`);
-    }
-
-    // Your main.py returns the PredictionResponse class
-    const result = await response.json();
-
-    return {
-      churn_probability: result.probability_of_churn,
-      predicted_churn: result.probability_of_churn >= 0.5,
-      // Your main.py calculates risk_level as either 'Low' or 'High'
-      risk_level: result.risk_level as "Low" | "Medium" | "High",
-      recommendations: result.recommendations,
-    };
-
-  } catch (error) {
-    console.error("Error during churn prediction:", error);
-    throw error;
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Prediction API Error ${response.status}: ${errorText}`);
   }
+
+  // Backend returns: { predicted_churn_status, probability_of_churn, risk_level, recommendations }
+  const result = await response.json();
+
+  return {
+    churn_probability: result.probability_of_churn,
+    predicted_churn: result.probability_of_churn >= 0.5,
+    predicted_churn_status: result.predicted_churn_status,
+    risk_level: result.risk_level as "Low" | "Medium" | "High",
+    recommendations: result.recommendations ?? [],
+  };
 }
