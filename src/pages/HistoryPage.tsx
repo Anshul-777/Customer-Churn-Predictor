@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import RiskBadge from "@/components/RiskBadge";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -151,8 +152,8 @@ export default function HistoryPage() {
       : 0;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-8">
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="container mx-auto px-6 py-8 flex-1 animate-fade-slide-up">
         <div className="mb-8 flex items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
@@ -334,6 +335,7 @@ export default function HistoryPage() {
           </p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

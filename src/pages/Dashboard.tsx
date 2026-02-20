@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import ChurnGauge from "@/components/ChurnGauge";
 import RiskBadge from "@/components/RiskBadge";
 import InsightsCard from "@/components/InsightsCard";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -252,8 +253,8 @@ export default function Dashboard() {
   const monthlyChargesValue = watch("monthlyCharges");
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-6 py-8">
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="container mx-auto px-6 py-8 flex-1">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <TrendingDown className="h-6 w-6 text-primary" />
@@ -264,7 +265,7 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-slide-up">
           <div className="flex flex-col lg:flex-row gap-6 items-start">
             {/* Left Panel: Input Form */}
             <div className="w-full lg:w-[60%] space-y-4">
@@ -727,6 +728,7 @@ export default function Dashboard() {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }
