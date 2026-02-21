@@ -173,6 +173,11 @@ export default function Dashboard() {
     defaultValues,
   });
 
+  // Wake up Render backend on mount (free-tier cold-start takes ~30s)
+  useEffect(() => {
+    fetch("https://customer-churn-predictor-zdez.onrender.com/docs", { mode: "no-cors" }).catch(() => {});
+  }, []);
+
   // Check for reload data from history
   useEffect(() => {
     const reloadData = sessionStorage.getItem("reload_prediction");
