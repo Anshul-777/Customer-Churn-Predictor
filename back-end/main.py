@@ -98,12 +98,12 @@ def preprocess_input(customer_data: CustomerData) -> pd.DataFrame:
 
     user_df = pd.DataFrame([raw_data])
 
-    # Force numeric types
-    user_df["SeniorCitizen"] = int(user_df["SeniorCitizen"])
-    user_df["tenure"] = int(user_df["tenure"])
-    user_df["MonthlyCharges"] = float(user_df["MonthlyCharges"])
-    user_df["TotalCharges"] = float(user_df["TotalCharges"])
-
+        # Force numeric types using Pandas-native methods
+    user_df["SeniorCitizen"] = user_df["SeniorCitizen"].astype(int)
+    user_df["tenure"] = user_df["tenure"].astype(int)
+    user_df["MonthlyCharges"] = user_df["MonthlyCharges"].astype(float)
+    user_df["TotalCharges"] = user_df["TotalCharges"].astype(float)
+    
     # Map add-on services to numeric
     addon_map = {"Yes": 1, "No": 0, "No internet service": 0}
     addon_cols = [
