@@ -196,6 +196,12 @@ export default function LandingPage() {
                   View Source
                 </Button>
               </a>
+              <a href="https://anshulportfolio-m86cp76op-god-s-projects-04ef3be1.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="lg" className="h-12 px-8 text-base hover:scale-105 transition-transform duration-200 gap-2">
+                  <ExternalLink className="h-5 w-5" />
+                  Visit Portfolio
+                </Button>
+              </a>
             </div>
           </div>
 
