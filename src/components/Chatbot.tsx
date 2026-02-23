@@ -8,7 +8,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chatbot`;
 
 const quickQuestions = [
-  "What is ChurnSense AI?",
+  "What is RetainIQ?",
   "How accurate is the model?",
   "What algorithm does it use?",
   "What features does the model use?",
@@ -176,7 +176,10 @@ export default function Chatbot() {
         onTouchStart={handleDragStart}
       >
         <button
-          onClick={() => !dragging && setOpen(!open)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(!open);
+          }}
           className="h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-xl flex items-center justify-center hover:scale-110 transition-transform duration-200"
           style={{ boxShadow: "0 8px 32px hsl(var(--primary) / 0.4)" }}
         >
@@ -203,7 +206,7 @@ export default function Chatbot() {
               <Bot className="h-5 w-5 text-primary-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-bold text-foreground">ChurnBot</h3>
+              <h3 className="text-sm font-bold text-foreground">RetainBot</h3>
               <p className="text-xs text-muted-foreground">AI Assistant · Powered by Gemini</p>
             </div>
             <GripVertical className="h-4 w-4 text-muted-foreground opacity-50" />
@@ -215,8 +218,8 @@ export default function Chatbot() {
             {messages.length === 0 && (
               <div className="text-center py-4">
                 <Bot className="h-10 w-10 text-primary mx-auto mb-2" />
-                <p className="text-sm font-medium text-foreground mb-1">Hi! I'm ChurnBot 👋</p>
-                <p className="text-xs text-muted-foreground mb-4">Ask me anything about ChurnSense AI</p>
+                <p className="text-sm font-medium text-foreground mb-1">Hi! I'm RetainBot 👋</p>
+                <p className="text-xs text-muted-foreground mb-4">Ask me anything about RetainIQ</p>
               </div>
             )}
 
@@ -287,7 +290,7 @@ export default function Chatbot() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about ChurnSense..."
+                placeholder="Ask about RetainIQ..."
                 className="flex-1 h-9 rounded-lg border border-border bg-secondary px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                 disabled={isLoading}
               />

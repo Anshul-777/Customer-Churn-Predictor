@@ -5,9 +5,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const SYSTEM_PROMPT = `You are ChurnBot, the AI assistant for ChurnSense AI — a customer churn prediction application built for the telecom industry.
+const SYSTEM_PROMPT = `You are RetainBot, the AI assistant for RetainIQ — a customer churn prediction application built for the telecom industry.
 
-About ChurnSense AI:
+About RetainIQ:
 - It uses a LightGBM (LGBM) machine learning model trained on the IBM Telco Customer Churn dataset with 7,043 records
 - Model accuracy: 83.79% on holdout test set
 - It predicts whether a telecom customer is likely to churn (leave) based on 18+ features

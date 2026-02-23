@@ -19,7 +19,7 @@ export default function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary transition-transform duration-300 group-hover:scale-110">
                 <BarChart3 className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="text-foreground">ChurnSense</span>
+              <span className="text-foreground">RetainIQ</span>
               <span className="text-xs font-medium bg-accent text-accent-foreground px-1.5 py-0.5 rounded-md">AI</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">

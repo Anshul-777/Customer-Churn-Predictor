@@ -83,7 +83,7 @@ const metrics = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div
@@ -96,7 +96,7 @@ export default function AboutPage() {
           <div className="mx-auto max-w-3xl" style={{ animation: "fadeSlideUp 0.8s ease both" }}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-accent px-4 py-1.5 text-sm font-medium text-accent-foreground">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              About ChurnSense AI
+              About RetainIQ
             </div>
             <h1 className="mb-6 text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight text-foreground">
               Predicting Churn with{" "}
@@ -110,7 +110,7 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              ChurnSense AI is a full-stack machine learning application that predicts customer churn
+              RetainIQ is a full-stack machine learning application that predicts customer churn
               in the telecommunications industry using a trained LightGBM model deployed on a live REST API.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
@@ -176,7 +176,7 @@ export default function AboutPage() {
               </div>
               <h3 className="text-xl font-bold text-foreground mb-3">The Solution</h3>
               <p className="text-muted-foreground leading-relaxed">
-                ChurnSense uses a LightGBM model trained on the IBM Telco dataset to score any customer's
+                RetainIQ uses a LightGBM model trained on the IBM Telco dataset to score any customer's
                 churn likelihood in under 100ms. The model achieves 83.79% accuracy with strong
                 precision on high-risk customers.
               </p>
