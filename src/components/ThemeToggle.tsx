@@ -12,7 +12,7 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="flex items-center gap-0.5 rounded-full border border-border bg-secondary/80 p-1">
+    <div className="flex items-center gap-0.5 rounded-full border border-border bg-secondary/80 p-1 transition-all duration-500">
       {themes.map(({ mode, icon: Icon, label }) => (
         <button
           key={mode}

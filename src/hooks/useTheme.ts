@@ -7,9 +7,9 @@ const THEME_KEY = "churnsense-theme";
 export function useTheme() {
   const [theme, setThemeState] = useState<ThemeMode>(() => {
     if (typeof window !== "undefined") {
-      return (localStorage.getItem(THEME_KEY) as ThemeMode) || "rainbow";
+      return (localStorage.getItem(THEME_KEY) as ThemeMode) || "light";
     }
-    return "rainbow";
+    return "light";
   });
 
   useEffect(() => {

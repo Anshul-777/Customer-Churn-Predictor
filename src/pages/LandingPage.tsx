@@ -115,7 +115,7 @@ const useCases = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background image with overlay */}
@@ -224,7 +224,7 @@ export default function LandingPage() {
                 <span className="h-3 w-3 rounded-full" style={{ background: "hsl(0 84% 60%)" }} />
                 <span className="h-3 w-3 rounded-full" style={{ background: "hsl(38 92% 50%)" }} />
                 <span className="h-3 w-3 rounded-full" style={{ background: "hsl(158 64% 40%)" }} />
-                <span className="ml-3 text-xs text-muted-foreground font-mono">churnsense.ai/dashboard</span>
+                <span className="ml-3 text-xs text-muted-foreground font-mono">retainiq.ai/dashboard</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 divide-y md:divide-y-0 md:divide-x divide-border">
                 {/* Left: GitHub-style profile card */}
@@ -404,7 +404,7 @@ export default function LandingPage() {
               <h2 className="text-3xl font-bold text-foreground mb-4">Use Cases</h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
                 Whether you're a data scientist validating a model or a business analyst building retention
-                strategies, ChurnSense gives you fast, reliable answers.
+                strategies, RetainIQ gives you fast, reliable answers.
               </p>
               <ul className="space-y-3">
                 {useCases.map((uc, i) => (

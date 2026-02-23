@@ -258,13 +258,18 @@ export default function Dashboard() {
     }
   }, [reset, toast]);
 
+  const [serverNotice, setServerNotice] = useState(false);
+
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     setPrediction(null);
+    setServerNotice(true);
+    setTimeout(() => setServerNotice(false), 5000);
     try {
       const result = await predictChurn(values as CustomerFormData);
       setPrediction(result);
       setSavedFormData(values as CustomerFormData);
+      setServerNotice(false);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to connect to prediction API.";
       toast({ title: "Prediction Failed", description: message, variant: "destructive" });
@@ -314,8 +319,8 @@ export default function Dashboard() {
   const monthlyChargesValue = watch("monthlyCharges");
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1">
+    <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 max-w-full">
           <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-foreground flex items-center gap-2">
@@ -510,14 +515,29 @@ export default function Dashboard() {
                   <RotateCcw className="h-4 w-4" />
                 </Button>
               </div>
+
+              {/* Server notice */}
+              {serverNotice && (
+                <div
+                  className="mt-3 rounded-xl border border-primary/20 bg-accent/80 px-4 py-3 text-sm text-accent-foreground flex items-start gap-2"
+                  style={{ animation: "fadeSlideUp 0.3s ease both" }}
+                >
+                  <Loader2 className="h-4 w-4 animate-spin text-primary shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Server warming up</strong> — the ML backend on Render may need up to 60 seconds on first request. Please wait, your prediction is processing.
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Right Panel: Prediction Results */}
             <div className="w-full lg:w-[42%] lg:sticky lg:top-24">
-              <Card className="border shadow-sm">
+              <Card className="border shadow-sm overflow-hidden relative">
+                {/* Animated top border */}
+                <div className="h-1 w-full" style={{ background: "var(--gradient-primary)", backgroundSize: "200% 100%", animation: "shimmer 3s linear infinite" }} />
                 <CardHeader className="border-b border-border pb-4">
                   <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
+                    <Sparkles className="h-4 w-4 text-primary animate-pulse" />
                     Prediction Results
                   </CardTitle>
                 </CardHeader>
@@ -531,14 +551,14 @@ export default function Dashboard() {
                       <p className="text-sm text-muted-foreground font-medium">Running LGBM model...</p>
                     </div>
                   ) : prediction ? (
-                    <div className="space-y-8">
+                    <div className="space-y-6" style={{ animation: "fadeSlideUp 0.6s ease both" }}>
                       {/* Gauge */}
-                      <div className="flex justify-center py-2">
-                        <ChurnGauge probability={prediction.churn_probability} size={220} />
+                      <div className="flex justify-center py-4">
+                        <ChurnGauge probability={prediction.churn_probability} size={200} />
                       </div>
 
                       {/* Risk badge + summary */}
-                      <div className="text-center space-y-3 py-2">
+                      <div className="text-center space-y-3 py-3">
                         <RiskBadge level={prediction.risk_level} size="lg" />
                         <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
                           {prediction.risk_level === "High"
@@ -551,13 +571,13 @@ export default function Dashboard() {
 
                       {/* Stats row */}
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="rounded-xl bg-secondary p-4 text-center">
+                        <div className="rounded-xl bg-secondary p-4 text-center hover:scale-105 transition-transform duration-300">
                           <div className="text-xs text-muted-foreground mb-1.5">Churn Probability</div>
-                          <div className="text-2xl font-bold text-foreground">
+                          <div className="text-2xl font-bold text-foreground tabular-nums">
                             {(prediction.churn_probability * 100).toFixed(1)}%
                           </div>
                         </div>
-                        <div className="rounded-xl bg-secondary p-4 text-center">
+                        <div className="rounded-xl bg-secondary p-4 text-center hover:scale-105 transition-transform duration-300">
                           <div className="text-xs text-muted-foreground mb-1.5">Prediction</div>
                           <div className="text-sm font-bold text-foreground leading-tight mt-1">
                             {prediction.predicted_churn ? "Likely to Leave" : "Likely to Stay"}
@@ -583,7 +603,7 @@ export default function Dashboard() {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
-                      <div className="h-16 w-16 rounded-2xl bg-accent flex items-center justify-center">
+                      <div className="h-16 w-16 rounded-2xl bg-accent flex items-center justify-center animate-float">
                         <TrendingDown className="h-8 w-8 text-primary" />
                       </div>
                       <div>
