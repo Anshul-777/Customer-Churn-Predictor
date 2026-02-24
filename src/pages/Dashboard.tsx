@@ -320,7 +320,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden">
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 max-w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-12 xl:px-20 py-6 sm:py-8 flex-1">
           <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-foreground flex items-center gap-2">
@@ -341,10 +341,10 @@ export default function Dashboard() {
             </a>
           </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-slide-up">
-          <div className="flex flex-col lg:flex-row gap-6 items-start">
-            {/* Left Panel: Input Form */}
-            <div className="w-full lg:w-[58%] space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="animate-fade-in-fast">
+          <div className="flex flex-col gap-6">
+            {/* Input Form — Full Width */}
+            <div className="w-full space-y-4">
               <Accordion type="multiple" defaultValue={["demographics", "account", "services", "addons"]}>
                 {/* Demographics */}
                 <AccordionItem value="demographics" className="border border-border rounded-xl overflow-hidden mb-4 shadow-sm">
@@ -530,8 +530,8 @@ export default function Dashboard() {
               )}
             </div>
 
-            {/* Right Panel: Prediction Results */}
-            <div className="w-full lg:w-[42%] lg:sticky lg:top-24">
+            {/* Prediction Results — Full Width Below */}
+            <div className="w-full">
               <Card className="border shadow-sm overflow-hidden relative">
                 {/* Animated top border */}
                 <div className="h-1 w-full" style={{ background: "var(--gradient-primary)", backgroundSize: "200% 100%", animation: "shimmer 3s linear infinite" }} />
