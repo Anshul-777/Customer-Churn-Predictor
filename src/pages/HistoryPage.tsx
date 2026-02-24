@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import RiskBadge from "@/components/RiskBadge";
+
+function getSessionId() {
+  let id = sessionStorage.getItem("churn_session_id");
+  if (!id) {
+    id = crypto.randomUUID();
+    sessionStorage.setItem("churn_session_id", id);
+  }
+  return id;
+}
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,6 +72,7 @@ export default function HistoryPage() {
       const { data, error } = await supabase
         .from("churn_predictions")
         .select("*")
+        .eq("session_id", getSessionId())
         .order(sortField, { ascending: sortDir === "asc" })
         .limit(200);
       if (error) throw error;
@@ -126,7 +136,7 @@ export default function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 flex-1 animate-fade-slide-up">
+      <div className="w-full px-4 sm:px-6 lg:px-12 xl:px-20 py-6 sm:py-8 flex-1 animate-fade-in-fast">
         <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-foreground flex items-center gap-2">

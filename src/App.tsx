@@ -42,8 +42,8 @@ function AnimatedRoutes() {
 
   return (
     <div
-      className={transitionStage === "enter" ? "animate-fade-slide-up" : ""}
-      style={transitionStage === "exit" ? { opacity: 0, transform: "translateY(10px)", transition: "opacity 0.2s ease, transform 0.2s ease" } : {}}
+      className={transitionStage === "enter" ? "animate-fade-in-fast" : ""}
+      style={transitionStage === "exit" ? { opacity: 0, transition: "opacity 0.12s ease" } : {}}
       onTransitionEnd={() => {
         if (transitionStage === "exit") {
           setDisplayLocation(location);
