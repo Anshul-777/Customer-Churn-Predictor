@@ -2,8 +2,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Chatbot from "./components/Chatbot";
 import LandingPage from "./pages/LandingPage";
@@ -26,40 +26,16 @@ function ThemeInit() {
   return null;
 }
 
-// Page transition wrapper
-function AnimatedRoutes() {
-  const location = useLocation();
-  const [displayLocation, setDisplayLocation] = useState(location);
-  const [transitionStage, setTransitionStage] = useState("enter");
-  const prevPath = useRef(location.pathname);
-
-  useEffect(() => {
-    if (location.pathname !== prevPath.current) {
-      setTransitionStage("exit");
-      prevPath.current = location.pathname;
-    }
-  }, [location]);
-
+// Simple routes — no transition wrapper
+function AppRoutes() {
   return (
-    <div
-      className={transitionStage === "enter" ? "animate-fade-in-fast" : ""}
-      style={transitionStage === "exit" ? { opacity: 0, transition: "opacity 0.12s ease" } : {}}
-      onTransitionEnd={() => {
-        if (transitionStage === "exit") {
-          setDisplayLocation(location);
-          setTransitionStage("enter");
-          window.scrollTo(0, 0);
-        }
-      }}
-    >
-      <Routes location={displayLocation}>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/history" element={<HistoryPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
@@ -71,7 +47,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Navbar />
-        <AnimatedRoutes />
+        <AppRoutes />
         <Chatbot />
       </BrowserRouter>
     </TooltipProvider>
